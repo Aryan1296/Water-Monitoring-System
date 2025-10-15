@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -15,234 +15,770 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     />
     <link
-      href="https://fonts.googleapis.com/css?family=Montserrat"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700"
       rel="stylesheet"
     />
     <title>Water Level Monitoring System - IoT Project</title>
     <style>
+      :root {
+        --primary: #3498db;
+        --secondary: #2c3e50;
+        --danger: #e74c3c;
+        --warning: #f39c12;
+        --success: #2ecc71;
+        --light: #ecf0f1;
+        --dark: #2c3e50;
+        --gray: #95a5a6;
+      }
+      
       body {
-        background-color: #fafafa;
+        background-color: #f8f9fa;
         font-family: "Montserrat", sans-serif;
+        color: #333;
+        line-height: 1.6;
       }
 
       .container {
-        margin: 80px auto;
-        max-width: 960px;
-      }
-
-      .demo {
+        margin: 0 auto;
+        max-width: 1200px;
         padding: 20px;
-        margin: 30px;
       }
 
-      h1 {
+      .header {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 40px 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         text-align: center;
-        color: #fff;
       }
 
-      .title {
-        color: grey;
+      .header h1 {
+        font-weight: 700;
+        margin-bottom: 15px;
+        font-size: 2.5rem;
       }
 
-      h2 {
-        padding-top: 200px;
+      .header p {
+        font-size: 1.1rem;
+        max-width: 800px;
+        margin: 0 auto;
+        opacity: 0.9;
+      }
+
+      .dashboard-title {
         text-align: center;
-        font-weight: 800;
+        margin: 30px 0;
+        color: var(--dark);
+        font-weight: 600;
+        position: relative;
       }
-      .description {
-margin-bottom: 25px;
-text-align: center;
-color: #555;
-line-height: 1.6;
-}
 
-.tank-section {
-margin-top: 20px;
-}
+      .dashboard-title:after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 3px;
+        background: var(--primary);
+        margin: 10px auto;
+      }
+
+      .tank-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .tank-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+        padding: 25px;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+        width: 220px;
+      }
+
+      .tank-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+      }
+
+      .tank-name {
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--dark);
+        font-size: 1.2rem;
+      }
+
+      .tank-visualization {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 15px;
+        position: relative;
+      }
+
+      .tank-status {
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: inline-block;
+      }
+
+      .status-danger {
+        background-color: rgba(231, 76, 60, 0.15);
+        color: var(--danger);
+      }
+
+      .status-warning {
+        background-color: rgba(243, 156, 18, 0.15);
+        color: var(--warning);
+      }
+
+      .status-safe {
+        background-color: rgba(46, 204, 113, 0.15);
+        color: var(--success);
+      }
+
+      .legend-container {
+        background: white;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        margin: 30px 0;
+      }
+
+      .legend-title {
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      .legend-items {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        min-width: 180px;
+      }
+
+      .legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        margin-right: 10px;
+      }
+
+      .legend-danger {
+        background-color: var(--danger);
+        color: white;
+      }
+
+      .legend-warning {
+        background-color: var(--warning);
+        color: white;
+      }
+
+      .legend-safe {
+        background-color: var(--success);
+        color: white;
+      }
+
       .footer {
-  margin-top: 40px;
-  padding: 15px 10px;
-  text-align: center;
-  background-color: #222;
-  color: #fff;
-  border-radius: 6px;
-}
+        background: var(--secondary);
+        color: white;
+        padding: 40px 20px;
+        margin-top: 50px;
+        border-radius: 10px 10px 0 0;
+      }
 
-.footer a {
-  color: #00bfff;
-  text-decoration: none;
-}
+      .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
 
-.footer a:hover {
-  text-decoration: underline;
-}
+      .footer-info {
+        flex: 1;
+        min-width: 300px;
+        margin-bottom: 20px;
+      }
 
+      .footer-info h3 {
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--light);
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 20px;
+        margin-top: 15px;
+      }
+
+      .footer-link {
+        color: var(--light);
+        text-decoration: none;
+        transition: color 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .footer-link:hover {
+        color: var(--primary);
+        text-decoration: none;
+      }
+
+      .footer-social {
+        display: flex;
+        gap: 15px;
+        margin-top: 15px;
+      }
+
+      .social-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        color: white;
+        transition: all 0.3s;
+      }
+
+      .social-icon:hover {
+        background: var(--primary);
+        transform: translateY(-3px);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+      }
+
+      /* Admin Dashboard Styles */
+      .admin-dashboard {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-top: 40px;
+        display: none;
+      }
+
+      .admin-card {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 25px;
+        border-left: 4px solid var(--primary);
+      }
+
+      .admin-card h4 {
+        color: var(--dark);
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+
+      .admin-card h4 i {
+        margin-right: 10px;
+        color: var(--primary);
+      }
+
+      .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+      }
+
+      .stat-item {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
+      .stat-label {
+        display: block;
+        font-size: 0.85rem;
+        color: var(--gray);
+        margin-bottom: 5px;
+      }
+
+      .stat-value {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .controls-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .controls-container .btn {
+        flex: 1;
+        min-width: 120px;
+      }
+
+      .chart-placeholder {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        color: var(--gray);
+      }
+
+      .alarm-log {
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .admin-toggle-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 12px 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        z-index: 1000;
+        transition: all 0.3s;
+      }
+
+      .admin-toggle-btn:hover {
+        background: var(--secondary);
+        transform: translateY(-2px);
+      }
+
+      @media (max-width: 768px) {
+        .tank-container {
+          gap: 20px;
+        }
+        
+        .tank-card {
+          width: 100%;
+          max-width: 250px;
+        }
+        
+        .legend-items {
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .footer-content {
+          flex-direction: column;
+          text-align: center;
+        }
+        
+        .stats-container {
+          grid-template-columns: 1fr;
+        }
+        
+        .controls-container {
+          flex-direction: column;
+        }
+      }
     </style>
   </head>
 
   <body>
     <div class="container">
-      <div class="description">
-  <h1 class="title">Water Monitoring System</h1>
-  <p>
-    Water Monitoring System is an IOT-based Liquid Level Monitoring System
-    that alerts users during overflow or depletion conditions.
-  </p>
-</div>
-  <div class="row tank-section">
-  <!-- tanks -->
-</div>
+      <header class="header">
+        <h1>Water Monitoring System</h1>
+        <p>
+          An IoT-based Liquid Level Monitoring System that alerts users during 
+          overflow or depletion conditions in real-time.
+        </p>
+      </header>
 
-      <div class="row">
-        <div class="col-lg-3">
-          <div
-            class="tank1"
-            style="width: 200px;height:200px; float:left"
-          ></div>
-          <h2>Tank 1</h2>
+      <h2 class="dashboard-title">Tank Dashboard</h2>
+      
+      <div class="tank-container">
+        <div class="tank-card">
+          <div class="tank-name">Tank 1</div>
+          <div class="tank-visualization tank1"></div>
+          <div class="tank-status status-warning">65% - Warning</div>
         </div>
-        <div class="col-lg-3">
-          <div
-            class="tank2"
-            style="width: 200px;height:200px; float:left"
-          ></div>
-          <h2>Tank 2</h2>
+        
+        <div class="tank-card">
+          <div class="tank-name">Tank 2</div>
+          <div class="tank-visualization tank2"></div>
+          <div class="tank-status status-danger">25% - Danger</div>
         </div>
-        <div class="col-lg-3">
-          <div
-            class="tank3"
-            style="width: 200px;height:200px; float:left"
-          ></div>
-          <h2>Tank 3</h2>
+        
+        <div class="tank-card">
+          <div class="tank-name">Tank 3</div>
+          <div class="tank-visualization tank3"></div>
+          <div class="tank-status status-safe">85% - Safe</div>
         </div>
-        <div class="col-lg-3">
-          <div
-            class="tank4"
-            style="width: 200px;height:200px; float:left"
-          ></div>
-          <h2>Tank 4</h2>
+        
+        <div class="tank-card">
+          <div class="tank-name">Tank 4</div>
+          <div class="tank-visualization tank4"></div>
+          <div class="tank-status status-warning">55% - Warning</div>
+        </div>
+      </div>
+
+      <div class="legend-container">
+        <h3 class="legend-title">Water Level Indicators</h3>
+        <div class="legend-items">
+          <div class="legend-item legend-danger">
+            <div class="legend-color"></div>
+            Danger Zone (0-30%)
+          </div>
+          <div class="legend-item legend-warning">
+            <div class="legend-color"></div>
+            Warning Zone (31-70%)
+          </div>
+          <div class="legend-item legend-safe">
+            <div class="legend-color"></div>
+            Safe Zone (71-100%)
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="container">
+    <!-- Admin Dashboard -->
+    <div class="container admin-dashboard">
+      <h2 class="dashboard-title">Admin Dashboard</h2>
+      
       <div class="row">
-        <div
-          class="col-lg-4"
-          style="background-color: #fe5e21;min-height: 100px;min-width: 100px; "
-        >
-          <h1>Danger Zone</h1>
+        <div class="col-md-6">
+          <div class="admin-card">
+            <h4><i class="fa fa-bar-chart"></i> System Statistics</h4>
+            <div class="stats-container">
+              <div class="stat-item">
+                <span class="stat-label">Total Tanks</span>
+                <span class="stat-value">4</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Average Level</span>
+                <span class="stat-value" id="avgLevel">57.5%</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Alarms Active</span>
+                <span class="stat-value" id="activeAlarms">0</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div
-          class="col-lg-4"
-          style="background-color: #ffb30c;min-width: 100px;min-height: 100px"
-        >
-          <h1>Warning Zone</h1>
-        </div>
-        <div
-          class="col-lg-4"
-          style="background-color: #2ed351;min-width: 100px;min-height: 100px"
-        >
-          <h1>Safe Zone</h1>
+        
+        <div class="col-md-6">
+          <div class="admin-card">
+            <h4><i class="fa fa-cog"></i> System Controls</h4>
+            <div class="controls-container">
+              <button class="btn btn-primary" id="refreshData">
+                <i class="fa fa-refresh"></i> Refresh Data
+              </button>
+              <button class="btn btn-warning" id="testAlarm">
+                <i class="fa fa-bell"></i> Test Alarm
+              </button>
+              <button class="btn btn-danger" id="emergencyStop">
+                <i class="fa fa-stop"></i> Emergency Stop
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <hr />
-      <p>
-        <center><strong>Made by Vinit Shahdeo</strong></center>
-      </p>
+      
+      <div class="admin-card">
+        <h4><i class="fa fa-history"></i> Historical Data</h4>
+        <div class="chart-placeholder">
+          <p><i class="fa fa-line-chart fa-3x"></i></p>
+          <p>Water Level Trends Over Time</p>
+          <small>Chart visualization would be implemented here</small>
+        </div>
+      </div>
+      
+      <div class="admin-card">
+        <h4><i class="fa fa-bell"></i> Alarm History</h4>
+        <div class="alarm-log" id="alarmLog">
+          <div class="alert alert-info">No recent alarms</div>
+        </div>
+      </div>
     </div>
+
+    <!-- Admin Toggle Button -->
+    <button id="adminToggle" class="admin-toggle-btn">
+      <i class="fa fa-cogs"></i> Admin
+    </button>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-info">
+          <h3>Water Monitoring System</h3>
+          <p>An IoT solution for efficient water management and conservation.</p>
+          <div class="footer-links">
+            <a href="#" class="footer-link">
+              <i class="fa fa-envelope"></i> Contact Us
+            </a>
+            <a href="#" class="footer-link">
+              <i class="fa fa-info-circle"></i> About
+            </a>
+            <a href="#" class="footer-link">
+              <i class="fa fa-shield"></i> Privacy Policy
+            </a>
+          </div>
+        </div>
+        
+        <div class="footer-info">
+          <h3>Connect With Us</h3>
+          <div class="footer-social">
+            <a href="https://github.com" class="social-icon" target="_blank">
+              <i class="fa fa-github"></i>
+            </a>
+            <a href="https://linkedin.com" class="social-icon" target="_blank">
+              <i class="fa fa-linkedin"></i>
+            </a>
+            <a href="https://twitter.com" class="social-icon" target="_blank">
+              <i class="fa fa-twitter"></i>
+            </a>
+            <a href="https://facebook.com" class="social-icon" target="_blank">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 Water Monitoring System | Developed by Vinit Shahdeo</p>
+      </div>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="lib/createWaterBall-jquery.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
-      //var x=30;
-      //alert("vini");
-      //var qs = window.GetQueryString(query);
+      // Simulated tank levels
+      const tankLevels = {
+        tank1: 65,
+        tank2: 25,
+        tank3: 85,
+        tank4: 55
+      };
 
-      //var x = window.getParameterByName('foo');
+      let alarmHistory = [];
 
-      /* function getParameterByName(name) {
-     
-        var match = RegExp('[?]' + foo + '=')
-                        .exec(window.location.search);
-     
-        return match ?
-            decodeURIComponent(match[1].replace(/+/g, ' '))
-            : null;
-     
-    }*/
-
-      function getQueryStringValue(key) {
-        return decodeURIComponent(
-          window.location.search.replace(
-            new RegExp(
-              "^(?:.*[&\\?]" +
-                encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") +
-                "(?:\\=([^&]*))?)?.*$",
-              "i"
-            ),
-            "$1"
-          )
-        );
-      }
-      var x = getQueryStringValue("tank1");
-      var y = getQueryStringValue("tank2");
-      var z = getQueryStringValue("tank3");
-      var w = getQueryStringValue("tank4");
+      // Initialize water balls for each tank
       $(".tank1").createWaterBall({
-        targetRange: x
+        targetRange: tankLevels.tank1
       });
+      
       $(".tank2").createWaterBall({
-        targetRange: y
+        targetRange: tankLevels.tank2
       });
+      
       $(".tank3").createWaterBall({
-        targetRange: z
+        targetRange: tankLevels.tank3
       });
+      
       $(".tank4").createWaterBall({
-        targetRange: w
+        targetRange: tankLevels.tank4
       });
 
-      var loadingEle = $(".loading");
-      var loading_width = loadingEle.width(),
-        loading_height = loadingEle.height();
-      $(".loading").createWaterBall({
-        cvs_config: {
-          width: loading_width,
-          height: loading_height
-        },
-        wave_config: {
-          waveWidth: 0.02,
-          waveHeight: 5
-        },
-        data_range: [30, 70, 100],
-        isLoading: true,
-        nowRange: 70,
-        targetRange: 70
+      // Function to update tank status based on level
+      function updateTankStatus() {
+        $('.tank-card').each(function() {
+          const tankElement = $(this).find('.tank-visualization');
+          const statusElement = $(this).find('.tank-status');
+          const tankClass = tankElement.attr('class').split(' ')[1];
+          const level = tankLevels[tankClass];
+          
+          // Remove existing status classes
+          statusElement.removeClass('status-danger status-warning status-safe');
+          
+          // Add appropriate status class based on level
+          if (level <= 30) {
+            statusElement.addClass('status-danger').text(level + '% - Danger');
+          } else if (level <= 70) {
+            statusElement.addClass('status-warning').text(level + '% - Warning');
+          } else {
+            statusElement.addClass('status-safe').text(level + '% - Safe');
+          }
+        });
+      }
+
+      // Overflow alarm system
+      function checkOverflowAlarm() {
+        const alarmThreshold = 90;
+        
+        $('.tank-card').each(function() {
+          const tankElement = $(this).find('.tank-visualization');
+          const statusElement = $(this).find('.tank-status');
+          const tankClass = tankElement.attr('class').split(' ')[1];
+          const level = tankLevels[tankClass];
+          
+          // Check if tank is about to overflow
+          if (level >= alarmThreshold) {
+            // Add visual alarm
+            $(this).css({
+              'box-shadow': '0 0 20px rgba(231, 76, 60, 0.8)',
+              'border': '2px solid #e74c3c'
+            });
+            
+            // Update status to show alarm
+            statusElement.removeClass('status-danger status-warning status-safe')
+                         .addClass('status-danger')
+                         .html(level + '% - <i class="fa fa-exclamation-triangle"></i> OVERFLOW ALARM!');
+            
+            // Log the alarm
+            logAlarm(tankClass, level);
+            
+            // Show browser notification if supported
+            if ("Notification" in window && Notification.permission === "granted") {
+              new Notification("🚨 Overflow Alert!", {
+                body: "Tank " + tankClass + " is at " + level + "% - About to overflow!",
+                icon: "/warning-icon.png"
+              });
+            }
+          } else {
+            // Remove alarm styling if level is safe
+            $(this).css({
+              'box-shadow': '',
+              'border': ''
+            });
+          }
+        });
+        
+        updateStatistics();
+      }
+
+      // Log alarm events
+      function logAlarm(tank, level) {
+        const timestamp = new Date().toLocaleString();
+        alarmHistory.unshift({
+          tank: tank,
+          level: level,
+          timestamp: timestamp
+        });
+        
+        // Update alarm log UI
+        if (alarmHistory.length > 0) {
+          let logHTML = '';
+          alarmHistory.slice(0, 5).forEach(alarm => {
+            logHTML += `
+              <div class="alert alert-danger">
+                <strong>${alarm.tank}</strong> - ${alarm.level}% at ${alarm.timestamp}
+              </div>
+            `;
+          });
+          $('#alarmLog').html(logHTML);
+        }
+      }
+
+      // Admin Dashboard Functionality
+      // Toggle Admin Dashboard
+      $('#adminToggle').click(function() {
+        $('.admin-dashboard').slideToggle();
+        $(this).toggleClass('active');
       });
-      setTimeout(function() {
-        $(".loading").createWaterBall("updateRange", 80);
-      }, 1000);
-      $(".waterBall1").createWaterBall({
-        csv_config: {
-          width: $(".waterBall1").width(),
-          height: $(".waterBall1").height()
-        },
-        wave_config: {
-          waveWidth: 0.02,
-          waveHeight: 5
-        },
-        data_range: [40, 50, 100],
-        targetRange: 45
+
+      // Update Statistics
+      function updateStatistics() {
+        const levels = Object.values(tankLevels);
+        const average = levels.reduce((a, b) => a + b, 0) / levels.length;
+        $('#avgLevel').text(average.toFixed(1) + '%');
+        
+        const activeAlarms = $('.tank-status:contains("OVERFLOW")').length;
+        $('#activeAlarms').text(activeAlarms);
+      }
+
+      // Test Alarm Function
+      $('#testAlarm').click(function() {
+        // Temporarily set a tank to overflow level for testing
+        const originalLevel = tankLevels.tank1;
+        tankLevels.tank1 = 95;
+        $(".tank1").createWaterBall("updateRange", 95);
+        updateTankStatus();
+        checkOverflowAlarm();
+        
+        // Revert after 5 seconds
+        setTimeout(() => {
+          tankLevels.tank1 = originalLevel;
+          $(".tank1").createWaterBall("updateRange", originalLevel);
+          updateTankStatus();
+          checkOverflowAlarm();
+        }, 5000);
       });
+
+      // Emergency Stop
+      $('#emergencyStop').click(function() {
+        if (confirm('Are you sure you want to trigger emergency stop? This will shut down all systems.')) {
+          alert('🚨 EMERGENCY STOP ACTIVATED! All systems shutting down...');
+          // In a real application, this would send a command to shut down the system
+        }
+      });
+
+      // Refresh Data
+      $('#refreshData').click(function() {
+        $(this).find('i').addClass('fa-spin');
+        setTimeout(() => {
+          $(this).find('i').removeClass('fa-spin');
+          updateStatistics();
+        }, 1000);
+      });
+
+      // Initialize tank statuses and statistics
+      updateTankStatus();
+      updateStatistics();
+
+      // Simulate real-time updates
+      setInterval(function() {
+        // Randomly change tank levels for demonstration
+        for (let tank in tankLevels) {
+          // Small random fluctuation (±5%)
+          const change = (Math.random() * 10) - 5;
+          tankLevels[tank] = Math.max(0, Math.min(100, tankLevels[tank] + change));
+        }
+        
+        // Update water balls
+        $(".tank1").createWaterBall("updateRange", tankLevels.tank1);
+        $(".tank2").createWaterBall("updateRange", tankLevels.tank2);
+        $(".tank3").createWaterBall("updateRange", tankLevels.tank3);
+        $(".tank4").createWaterBall("updateRange", tankLevels.tank4);
+        
+        // Update status indicators and check alarms
+        updateTankStatus();
+        checkOverflowAlarm();
+      }, 5000); // Update every 5 seconds
+
+      // Request notification permission
+      if ("Notification" in window) {
+        Notification.requestPermission();
+      }
     </script>
-    <!-- @author: Vinit Shahdeo -->
-     <footer class="footer">
-  <p>Connect with us:</p>
-  <a href="https://github.com" target="_blank">GitHub</a> |
-  <a href="https://linkedin.com" target="_blank">LinkedIn</a> |
-  <a href="https://twitter.com" target="_blank">Twitter</a>
-  <p>© 2025 Water Monitoring System</p>
-</footer>
   </body>
 </html>
