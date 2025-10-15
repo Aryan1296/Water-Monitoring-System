@@ -49,19 +49,50 @@
         text-align: center;
         font-weight: 800;
       }
+      .description {
+margin-bottom: 25px;
+text-align: center;
+color: #555;
+line-height: 1.6;
+}
+
+.tank-section {
+margin-top: 20px;
+}
+      .footer {
+  margin-top: 40px;
+  padding: 15px 10px;
+  text-align: center;
+  background-color: #222;
+  color: #fff;
+  border-radius: 6px;
+}
+
+.footer a {
+  color: #00bfff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
     </style>
   </head>
 
   <body>
     <div class="container">
-      <center>
-        <h1 class="title">Water Monitoring System</h1>
-        <p>
-          Water Monitoring System is an IOT based Liquid Level Monitoring system
-          that has mechanisms to keep the user alerted in case of liquid
-          overflow or when tank depletes.
-        </p>
-      </center>
+      <div class="description">
+  <h1 class="title">Water Monitoring System</h1>
+  <p>
+    Water Monitoring System is an IOT-based Liquid Level Monitoring System
+    that alerts users during overflow or depletion conditions.
+  </p>
+</div>
+  <div class="row tank-section">
+  <!-- tanks -->
+</div>
+
       <div class="row">
         <div class="col-lg-3">
           <div
@@ -206,5 +237,12 @@
       });
     </script>
     <!-- @author: Vinit Shahdeo -->
+     <footer class="footer">
+  <p>Connect with us:</p>
+  <a href="https://github.com" target="_blank">GitHub</a> |
+  <a href="https://linkedin.com" target="_blank">LinkedIn</a> |
+  <a href="https://twitter.com" target="_blank">Twitter</a>
+  <p>© 2025 Water Monitoring System</p>
+</footer>
   </body>
 </html>
